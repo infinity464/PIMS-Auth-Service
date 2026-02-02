@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    container_name: drf-app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      DATABASE_URL: "mssql+pyodbc://sa:B%40ngl%40d3sh@114.134.95.238:1433/PIMS_DB?driver=ODBC+Driver+17+for+SQL+Server"
+      SECRET_KEY: "your_secure_secret_key"
+      DEBUG: "True"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

@@ -1,0 +1,5 @@
+rest_framework_simplejwt
+djangorestframework-simplejwt
+django-cors-headers
+drf_yasg
+mssql-django
