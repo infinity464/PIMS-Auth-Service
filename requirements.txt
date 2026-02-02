@@ -1,3 +1,16 @@
+# Installation & Run Guide (Windows) ✅
+# 1. Create and activate a virtual environment (from project root):
+#    python -m venv env
+#    CMD:  .\env\Scripts\Activate
+# 2. Upgrade pip and install dependencies:
+#    python -m pip install --upgrade pip
+#    pip install -r requirements.txt
+# 3. Configure database settings in `config/settings.py` if needed.
+#    python manage.py runserver 8001
+# Notes:
+# - If you see "No module named 'corsheaders'", ensure the venv is activated and `django-cors-headers` is installed.
+# - For production, follow best practices for SECRET_KEY, DEBUG, ALLOWED_HOSTS, and database credentials.
+
 rest_framework_simplejwt
 djangorestframework-simplejwt
 django-cors-headers
