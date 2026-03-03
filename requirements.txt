@@ -16,3 +16,163 @@ djangorestframework-simplejwt
 django-cors-headers
 drf_yasg
 mssql-django
+
+
+
+
+
+=========================
+1.CMH - DB Delete
+2. Cell - DB Delete
+
+3. Children
+4. Player
+5. Night Of Duty
+6. Gcb
+7. Documentation
+8. CMH
+9. Cell
+10. Children
+11. Coaches
+12. PPG
+13. PPGF
+14. Permanent Address
+15. Present Address
+16. Access Denied
+17. Landing
+18. Crud
+19. Not Found
+20. Empty
+
+21. Run
+22. Sick
+23. SickBay
+24. 
+
+
+
+Table:
+SELECT TOP (1000) [Department_Id]
+      ,[Department_Name]
+      ,[MenuPosition]
+      ,[CreatedBy]
+      ,[CreatedDate]
+      ,[ModifiedBy]
+      ,[ModifiedDate]
+      ,[IsActive]
+  FROM [PIMS_DB].[dbo].[Departments]
+
+Table: 
+SELECT TOP (1000) [DepartmentMemberTypeId]
+      ,[DepartmentId]
+      ,[DepartmentMemberTypeName]
+      ,[IsActive]
+      ,[MenuPosition]
+      ,[CreatedBy]
+      ,[CreatedDate]
+      ,[ModifiedBy]
+      ,[ModifiedDate]
+  FROM [PIMS_DB].[dbo].[DepartmentMemberType]
+
+
+Table: 
+SELECT TOP (1000) [PersonalInfoId]
+      ,[PoNo]
+      ,[NameEn]
+      ,[NameBn]
+      ,[DOB]
+      ,[NidNo]
+      ,[BirthCertificateNo]
+      ,[MaritalStatusId]
+      ,[BloodGroupId]
+      ,[ReligionId]
+      ,[Phone]
+      ,[EmergencyPhone]
+      ,[Email]
+      ,[FatherName]
+      ,[MotherName]
+      ,[TinNo]
+      ,[Height]
+      ,[Weight]
+      ,[PassportNumber]
+      ,[PassportExpDate]
+      ,[PassportTypeId]
+      ,[PassportIssueDate]
+      ,[IsActive]
+      ,[MenuPosition]
+      ,[CreatedBy]
+      ,[CreatedDate]
+      ,[ModifiedBy]
+      ,[ModifiedDate]
+      ,[ImageUrl]
+      ,[IsMLR]
+      ,[DepartmentId]
+      ,[DepartmentMemberTypeId]
+  FROM [PIMS_DB].[dbo].[PersonalInfo]
+
+
+
+
+
+
+
+====================
+# Make sure Required fields and validation message
+
+Department
+Member Type
+PO NO
+Name (English)
+Date of Birth
+NID No
+Phone
+
+
+
+
+
+
+
+
+
+Habroshop Ecommerce
+===================
+Date: 18-2-2026
+Meeting with: Md Zohirul Islam - HabroShop - Dev
+
+Admin Credentials
+===================
+Email: admin@gmail.com
+Pass: admin12345678
+
+
+1. Source Code - OK
+2. Database - OK
+3. Frontend overview - OK
+4. Backend overview - OK
+5. User manual - OK
+6. Online Payment role based user manual - OK
+7. Cash on delivery role based user manual - OK
+8. All documents hardcopy & soft copy - OK
+
+
+
+
+
+
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3651.0281728249497!2d90.41487567391331!3d23.782011087564737!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3755c79eec5992b5%3A0x2f3ed22567672329!2sHabro%20Systems%20Limited!5e0!3m2!1sen!2sbd!4v1771401379283!5m2!1sen!2sbd" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

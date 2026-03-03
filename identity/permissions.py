@@ -34,3 +34,25 @@ class AuthRBACPermission(BasePermission):
         }
 
         return True
+
+
+class RoleListOrManagePermission(BasePermission):
+    """GET, PATCH, DELETE: any authenticated user. POST (create role): requires role.manage."""
+
+    def has_permission(self, request, view):
+        auth_header = request.headers.get("Authorization")
+        if not auth_header or not auth_header.startswith("Bearer "):
+            raise PermissionDenied("Authorization header missing or invalid")
+        token = auth_header.split(" ", 1)[1]
+        try:
+            access = AccessToken(token)
+            user = User.objects.get(id=access["user_id"])
+        except Exception:
+            raise PermissionDenied("Invalid or expired token")
+        permissions = get_role_permissions(user.role)
+        request.user_data = {"id": user.id, "role": user.role, "permissions": permissions}
+        if request.method in ("GET", "PATCH", "DELETE"):
+            return True
+        if request.method == "POST" and "role.manage" not in permissions:
+            raise PermissionDenied("You do not have permission to create roles")
+        return True

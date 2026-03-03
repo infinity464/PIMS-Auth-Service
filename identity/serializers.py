@@ -32,3 +32,8 @@ class RoleSerializer(serializers.ModelSerializer):
 
 class VerifyTokenSerializer(serializers.Serializer):
     token = serializers.CharField()
+
+
+class UpdateUserEmailSerializer(serializers.Serializer):
+    userId = serializers.IntegerField()
+    email = serializers.EmailField()

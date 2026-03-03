@@ -92,18 +92,37 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+# Live Server
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'mssql',
+#         'NAME': 'AuthServiceDB',
+#         'HOST': '192.168.1.38',
+#         'USER': 'sa',
+#         'PASSWORD': 'B@ngl@d3sh',
+#         'OPTIONS': {
+#             'driver': 'ODBC Driver 17 for SQL Server',
+#         },
+#     }
+# }
+
+# Local Server
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'AuthServiceDB',
-        'HOST': '192.168.1.38',
-        'USER': 'sa',
-        'PASSWORD': 'B@ngl@d3sh',
+        'HOST': 'localhost',  # local default instance, same as (local) in SSMS
+        # Omit PORT so driver uses default instance (like SSMS)
+        'USER': '',
+        'PASSWORD': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
+            'Trusted_Connection': 'yes',
+            'extra_params': 'Encrypt=yes;TrustServerCertificate=yes',
         },
     }
 }
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

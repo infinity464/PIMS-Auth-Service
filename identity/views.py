@@ -8,7 +8,7 @@ from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from drf_yasg.utils import swagger_auto_schema
 
-from identity.permissions import AuthRBACPermission
+from identity.permissions import AuthRBACPermission, RoleListOrManagePermission
 from identity.rbac import get_role_permissions
 from .models import Role, User, RefreshToken as RefreshTokenModel
 from .serializers import (
@@ -17,6 +17,7 @@ from .serializers import (
     RoleSerializer,
     VerifyTokenSerializer,
     UpdateUserRoleSerializer,
+    UpdateUserEmailSerializer,
 )
 from identity.utils import get_role_permissions
 
@@ -172,17 +173,51 @@ class UpdateUserRoleView(APIView):
             },
             status=status.HTTP_200_OK,
         )
+
+
+class UpdateUserEmailView(APIView):
+    permission_classes = [AllowAny]
+
+    @swagger_auto_schema(
+        operation_id="Account_updateUserEmail",
+        tags=["Account"],
+        request_body=UpdateUserEmailSerializer,
+        responses={200: "Email updated", 404: "User not found"},
+    )
+    def post(self, request):
+        serializer = UpdateUserEmailSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user_id = serializer.validated_data["userId"]
+        email = serializer.validated_data["email"]
+        try:
+            user = User.objects.get(id=user_id)
+        except User.DoesNotExist:
+            return Response({"message": "User not found"}, status=status.HTTP_404_NOT_FOUND)
+        user.email = email
+        user.save(update_fields=["email"])
+        return Response(
+            {"message": "Email updated successfully", "userId": user.id, "email": user.email},
+            status=status.HTTP_200_OK,
+        )
+
+
 class RoleView(APIView):
-    permission_classes = [AuthRBACPermission]
-    required_permission = "role.manage"
+    permission_classes = [RoleListOrManagePermission]
 
     @swagger_auto_schema(
         operation_id="roles_list",
         tags=["Roles"],
         responses={200: RoleSerializer(many=True)}
     )
-    def get(self, request):
-        roles = Role.objects.filter(is_active=True)
+    def get(self, request, role_id=None):
+        if role_id is not None:
+            try:
+                role = Role.objects.get(id=role_id)
+                serializer = RoleSerializer(role)
+                return Response(serializer.data)
+            except Role.DoesNotExist:
+                return Response({"message": "Role not found"}, status=status.HTTP_404_NOT_FOUND)
+        roles = Role.objects.all().order_by('id')
         serializer = RoleSerializer(roles, many=True)
         return Response(serializer.data)
 
@@ -203,6 +238,22 @@ class RoleView(APIView):
         )
 
     @swagger_auto_schema(
+        operation_id="roles_update",
+        tags=["Roles"],
+        request_body=RoleSerializer,
+        responses={200: "Role updated", 404: "Role not found"},
+    )
+    def patch(self, request, role_id: int):
+        try:
+            role = Role.objects.get(id=role_id)
+        except Role.DoesNotExist:
+            return Response({"message": "Role not found"}, status=status.HTTP_404_NOT_FOUND)
+        serializer = RoleSerializer(role, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+    @swagger_auto_schema(
         operation_id="roles_delete",
         tags=["Roles"],
         responses={
@@ -212,13 +263,12 @@ class RoleView(APIView):
     )
     def delete(self, request, role_id: int):
         try:
-            role = Role.objects.get(id=role_id, is_active=True)
+            role = Role.objects.get(id=role_id)
         except Role.DoesNotExist:
             return Response(
                 {"message": "Role not found"},
                 status=status.HTTP_404_NOT_FOUND
             )
-
         role.is_active = False
         role.save(update_fields=["is_active"])
 
